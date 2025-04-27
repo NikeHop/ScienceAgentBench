@@ -1,0 +1,28 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="scienceagentbench",
+    version="0.1.0",
+    description="Benchmarking framework for evaluating science agents.",
+    packages=find_packages(),
+    install_requires=[
+        "backoff==2.2.1",
+        "boto3==1.35.61",
+        "botocore==1.35.61",
+        "code_bert_score==0.4.1",
+        "datasets==3.1.0",
+        "docker_py==1.10.6",
+        "litellm==1.52.8",
+        "openai==1.54.4",
+        "python-dotenv==1.0.1",
+        "Requests==2.32.3",
+        "swebench==2.1.2",
+        "tqdm==4.67.0",
+    ],
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.10',
+)
