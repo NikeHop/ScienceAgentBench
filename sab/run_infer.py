@@ -1,4 +1,4 @@
-from agent import ScienceAgent
+from sab.agent import ScienceAgent
 
 from argparse import ArgumentParser
 from datasets import load_dataset
