@@ -202,14 +202,14 @@ def build_base_images(
         # Build the base image (if it does not exist or force rebuild is enabled)
         print(f"Building base image ({image_name})")
 
-
+        build_dir = Path(os.path.dirname(pred_program_path) + "/build_images/base")
         build_image(
             image_name=image_name,
             setup_scripts={},
             dockerfile=dockerfile,
             platform=platform,
             client=client,
-            build_dir=BASE_IMAGE_BUILD_DIR / image_name.replace(":", "__"),
+            build_dir=build_dir / image_name.replace(":", "__"),
         )
     print("Base images built successfully.")
 
@@ -230,7 +230,8 @@ def build_instance_image(
         nocache (bool): Whether to use the cache when building
     """
     # Set up logging for the build process
-    build_dir = INSTANCE_IMAGE_BUILD_DIR / test_spec.instance_image_key.replace(":", "__")
+    instance_image_build_dir = Path(os.dirname(test_spec.pred_program_path) + "/build_images/instances")
+    build_dir = instance_image_build_dir / test_spec.instance_image_key.replace(":", "__")
     build_dir.mkdir(parents=True, exist_ok=True)
     new_logger = False
     if logger is None:

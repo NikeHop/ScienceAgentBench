@@ -57,6 +57,7 @@ def run_instance(
         force_rebuild: bool,
         client: docker.DockerClient,
         run_id: str,
+        pred_program_path: str,
         timeout: int | None = None,
     ):
     """
@@ -69,12 +70,14 @@ def run_instance(
         force_rebuild (bool): Whether to force rebuild the image
         client (docker.DockerClient): Docker client
         run_id (str): Run ID
+        pred_program_path (str): Path to the prediction program
         timeout (int): Timeout for running tests
     """
     # Set up logging directory
     instance_id = test_spec.instance_id
     
-    log_dir = RUN_EVALUATION_LOG_DIR / run_id / instance_id
+    run_evaluation_log_dir = Path(os.path.dirname(pred_program_path) + "/" + "run_evaluation")
+    log_dir = run_evaluation_log_dir / run_id / instance_id
     log_dir.mkdir(parents=True, exist_ok=True)
 
     # Setup temp directory for storing input and output of evaluting this example
@@ -89,7 +92,8 @@ def run_instance(
         json.dump(test_spec.to_dict(), f)
 
     # Link the image build dir in the log dir
-    build_dir = INSTANCE_IMAGE_BUILD_DIR / test_spec.instance_image_key.replace(":", "__")
+    instance_image_build_dir = Path(os.dirname(test_spec.pred_program_path) + "/build_images/instances")
+    build_dir = instance_image_build_dir / test_spec.instance_image_key.replace(":", "__")
     log_file = log_dir / "run_instance.log"
 
     # Set up report file + logger
@@ -193,6 +197,7 @@ def run_instances(
                     force_rebuild,
                     client,
                     run_id,
+                    pred_program_path,
                     timeout,
                 ): None
                 for test_spec in test_specs
@@ -337,7 +342,8 @@ def main(
     print(f"Running {len(examples_to_run)} unevaluated instances...")
 
     # Clean up possible existing results
-    temp_dir = RUN_EVALUATION_LOG_DIR / run_id
+    run_evaluation_log_dir = Path(os.path.dirname(pred_program_path) + "/" + "run_evaluation")
+    temp_dir = run_evaluation_log_dir / run_id
     for example in examples_to_run:
         instance_id = example['instance_id']
         instance_path = temp_dir / instance_id
