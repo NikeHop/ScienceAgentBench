@@ -93,6 +93,7 @@ def run_instance(
 
     # Link the image build dir in the log dir
     instance_image_build_dir = Path(os.path.dirname(test_spec.pred_program_path) + "/build_images/instances")
+    print(instance_image_build_dir)
     build_dir = instance_image_build_dir / test_spec.instance_image_key.replace(":", "__")
     log_file = log_dir / "run_instance.log"
 

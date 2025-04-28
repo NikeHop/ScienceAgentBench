@@ -203,6 +203,7 @@ def build_base_images(
         print(f"Building base image ({image_name})")
 
         build_dir = Path(os.path.dirname(pred_program_path) + "/build_images/base")
+        print(build_dir)
         build_image(
             image_name=image_name,
             setup_scripts={},
