@@ -231,7 +231,7 @@ def build_instance_image(
         nocache (bool): Whether to use the cache when building
     """
     # Set up logging for the build process
-    instance_image_build_dir = Path(os.dirname(test_spec.pred_program_path) + "/build_images/instances")
+    instance_image_build_dir = Path(os.path.dirname(test_spec.pred_program_path) + "/build_images/instances")
     build_dir = instance_image_build_dir / test_spec.instance_image_key.replace(":", "__")
     build_dir.mkdir(parents=True, exist_ok=True)
     new_logger = False
